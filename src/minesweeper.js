@@ -1,17 +1,30 @@
+class Board {
+  constructor(numberOfRows, numberOfColumns, numberOfBombs) {
+    this._numberOfBombs = numberOfBombs;
+    this._numberOfTiles = numberOfRows * numberOfColumns;
+    this._playerBoard = Board.generatePlayerBoard(numberOfRows, numberOfColumns);
+    this._bombBoard = Board.generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs);
+  }
+
+  get playerBoard() {
+    return this._playerBoard;
+  }
+}
+
 // Generates a board of specified size
 const generatePlayerBoard = (numberOfRows, numberOfColumns) => {
   const board = [];
   for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
     const row = [];
     for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
-      row.push(null);
+      row.push(' ');
     }
     board.push(row);
   }
   return board;
 };
 
-// Randomly places the specified number of bombs on another board of the specified size and returns the bomb-containing board
+// Randomly places the specified number of bombs on another board of the specified size
 const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
   const board = [];
   for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
@@ -58,6 +71,8 @@ const flipTile = (playerBoard, bombBoard, rowIndex, columnIndex) => {
     return;
   } else if (bombBoard[rowIndex][columnIndex] === 'B') {
     playerBoard[rowIndex][columnIndex] = 'B';
+  } else {
+    playerBoard[rowIndex][columnIndex] = getNumberOfNeighborBombs(bombBoard, rowIndex, columnIndex);
   }
 }
 
@@ -69,7 +84,10 @@ const printBoard = board => {
 let playerBoard = generatePlayerBoard(3, 4);
 let bombBoard = generateBombBoard(3, 4, 5);
 
-console.log("Player Board: \n");
+console.log("Player Board:");
 printBoard(playerBoard);
-console.log("Bomb Board: \n");
+console.log("Bomb Board:");
 printBoard(bombBoard);
+flipTile(playerBoard, bombBoard, 0, 0);
+console.log("Updated Player Board:");
+printBoard(playerBoard);
