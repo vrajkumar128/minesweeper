@@ -11,7 +11,7 @@ class Board {
   }
 
   // Flips the clicked tile
-  function flipTile(rowIndex, columnIndex) {
+  flipTile(rowIndex, columnIndex) {
     if (this._playerBoard[rowIndex][columnIndex] !== ' ') {
       console.log("This tile has already been flipped!");
       return;
@@ -24,7 +24,7 @@ class Board {
   }
 
   // Calculates the number of bombs neighboring the flipped tile
-  function getNumberOfNeighborBombs(bombBoard, rowIndex, columnIndex) {
+  getNumberOfNeighborBombs(bombBoard, rowIndex, columnIndex) {
     const neighborOffsets = [
       [-1, -1],
       [-1, 0],
@@ -51,50 +51,50 @@ class Board {
   };
 
   // Check whether or not there are still safe tiles in play
-  function hasSafeTiles {
+  hasSafeTiles() {
     return this._numberOfBombs !== this._numberOfTiles;
   }
+
+  // Visually formats the game board for printing to the console
+  print() {
+    console.log(this._playerBoard.map(row => row.join(' | ')).join('\n'));
+  };
+
+  // Generates a board of specified size
+  static generatePlayerBoard(numberOfRows, numberOfColumns) {
+    const board = [];
+    for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
+      const row = [];
+      for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+        row.push(' ');
+      }
+      board.push(row);
+    }
+    return board;
+  };
+
+  // Randomly places the specified number of bombs on another board of the specified size
+  static generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs)  {
+    const board = [];
+    for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
+      const row = [];
+      for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+        row.push(' ');
+      }
+      board.push(row);
+    }
+    let numberOfBombsPlaced = 0;
+    while (numberOfBombsPlaced < numberOfBombs) {
+      const randomRowIndex = Math.floor(Math.random() * numberOfRows);
+      const randomColumnIndex = Math.floor(Math.random() * numberOfColumns);
+      if (board[randomRowIndex][randomColumnIndex] !== 'B') {
+        board[randomRowIndex][randomColumnIndex] = 'B';
+        numberOfBombsPlaced++;
+      }
+    }
+    return board;
+  };
 }
-
-// Generates a board of specified size
-const generatePlayerBoard = (numberOfRows, numberOfColumns) => {
-  const board = [];
-  for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
-    const row = [];
-    for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
-      row.push(' ');
-    }
-    board.push(row);
-  }
-  return board;
-};
-
-// Randomly places the specified number of bombs on another board of the specified size
-const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
-  const board = [];
-  for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
-    const row = [];
-    for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
-      row.push(' ');
-    }
-    board.push(row);
-  }
-  let numberOfBombsPlaced = 0;
-  while (numberOfBombsPlaced < numberOfBombs) {
-    const randomRowIndex = Math.floor(Math.random() * numberOfRows);
-    const randomColumnIndex = Math.floor(Math.random() * numberOfColumns);
-    if (board[randomRowIndex][randomColumnIndex] !== 'B') {
-      board[randomRowIndex][randomColumnIndex] = 'B';
-      numberOfBombsPlaced++;
-    }
-  }
-  return board;
-};
-
-// Visually formats the game board for printing to the console
-const printBoard = board => {
-  console.log(board.map(row => row.join(' | ')).join('\n'));
-};
 
 let playerBoard = generatePlayerBoard(3, 4);
 let bombBoard = generateBombBoard(3, 4, 5);
