@@ -10,7 +10,7 @@ export class Board {
     return this._playerBoard;
   }
 
-  // Flips the clicked tile
+  // Flips the specified tile
   flipTile(rowIndex, columnIndex) {
     if (this._playerBoard[rowIndex][columnIndex] !== ' ') {
       console.log("This tile has already been flipped!");
@@ -24,7 +24,7 @@ export class Board {
   }
 
   // Calculates the number of bombs neighboring the flipped tile
-  getNumberOfNeighborBombs(bombBoard, rowIndex, columnIndex) {
+  getNumberOfNeighborBombs(rowIndex, columnIndex) {
     const neighborOffsets = [
       [-1, -1],
       [-1, 0],
@@ -42,7 +42,7 @@ export class Board {
     neighborOffsets.forEach(offset => {
       const neighborRowIndex = rowIndex + offset[0];
       const neighborColumnIndex = columnIndex + offset[1];
-      if (neighborRowIndex >= 0 && neighborRowIndex <= numberOfRows && neighborColumnIndex >= 0 && neighborColumnIndex <= numberOfColumns) {
+      if (neighborRowIndex >= 0 && neighborRowIndex < numberOfRows && neighborColumnIndex >= 0 && neighborColumnIndex < numberOfColumns) {
         if (this._bombBoard[neighborRowIndex][neighborColumnIndex] === 'B') {
           numberOfBombs++;
         }
@@ -53,7 +53,7 @@ export class Board {
 
   // Check whether or not there are still safe tiles in play
   hasSafeTiles() {
-    return this._numberOfBombs !== this._numberOfTiles;
+    return this._numberOfBombs < this._numberOfTiles;
   }
 
   // Visually formats the game board for printing to the console

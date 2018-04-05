@@ -1,0 +1,23 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "Play Minesweeper in terminal",
+  "main": "main.js",
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vrrajkum/minesweeper.git"
+  },
+  "author": "vrrajkum",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vrrajkum/minesweeper/issues"
+  },
+  "homepage": "https://github.com/vrrajkum/minesweeper#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
+  }
+}
