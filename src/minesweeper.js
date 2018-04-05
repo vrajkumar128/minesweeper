@@ -35,6 +35,7 @@ class Board {
       [1, 0],
       [1, 1]
     ];
+
     const numberOfRows = this._bombBoard.length;
     const numberOfColumns = this._bombBoard[0].length;
     let numberOfBombs = 0;
@@ -48,7 +49,7 @@ class Board {
       }
     });
     return numberOfBombs;
-  };
+  }
 
   // Check whether or not there are still safe tiles in play
   hasSafeTiles() {
@@ -71,10 +72,10 @@ class Board {
       board.push(row);
     }
     return board;
-  };
+  }
 
   // Randomly places the specified number of bombs on another board of the specified size
-  static generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs)  {
+  static generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs) {
     const board = [];
     for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
       const row = [];
@@ -93,16 +94,28 @@ class Board {
       }
     }
     return board;
-  };
+  }
 }
 
-let playerBoard = generatePlayerBoard(3, 4);
-let bombBoard = generateBombBoard(3, 4, 5);
+class Game {
+  constructor(numberOfRows, numberOfColumns, numberOfBombs) {
+    this._board = new Board(numberOfRows, numberOfColumns, numberOfBombs);
+  }
 
-console.log("Player Board:");
-printBoard(playerBoard);
-console.log("Bomb Board:");
-printBoard(bombBoard);
-flipTile(playerBoard, bombBoard, 0, 0);
-console.log("Updated Player Board:");
-printBoard(playerBoard);
+  // Logic for a player's move
+  playMove(rowIndex, columnIndex) {
+    this._board.flipTile(rowIndex, columnIndex);
+    if (this._board.playerBoard[rowIndex][columnIndex] === 'B') {
+      console.log("Game over!");
+      this._board.print();
+    } else if (!this._board.hasSafeTiles()) {
+      console.log("You win!");
+    } else {
+      console.log("Current Board:");
+      this._board.print();
+    }
+  }
+}
+
+const g = new Game(3, 3, 3);
+g.playMove(0, 0);
